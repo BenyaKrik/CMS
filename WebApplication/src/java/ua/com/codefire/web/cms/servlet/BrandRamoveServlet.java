@@ -6,56 +6,46 @@
 package ua.com.codefire.web.cms.servlet;
 
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import ua.com.codefire.web.cms.db.controller.BrandController;
-import ua.com.codefire.web.cms.db.controller.PhoneController;
-import ua.com.codefire.web.cms.db.entity.Brand;
-import ua.com.codefire.web.cms.db.entity.Phone;
 
 /**
  *
  * @author user
  */
-@WebServlet(urlPatterns = "/showcase")
-public class ShowcaseServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/brand/remove")
 
-    private PhoneController pc;
+public class BrandRamoveServlet extends HttpServlet {
+
     private BrandController bc;
 
     @Override
     public void init() throws ServletException {
-        pc = new PhoneController();
+
         bc = new BrandController();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int brand_id;
-if (req.getParameter("brand_id") != null) {
+       int brand_id;
         try {
-
-             brand_id = Integer.parseInt(req.getParameter("brand_id"));
+             brand_id = Integer.parseInt(req.getParameter("id"));
         } catch (NumberFormatException ex) {
             ex.printStackTrace();
             resp.sendError(400);
             return;
         }
-         
-            List<Phone> bF = pc.brandFilter(brand_id);
-            req.setAttribute("phoneList", bF);
-        } else {
-        List<Phone> all = pc.getAll();
-        req.setAttribute("phoneList", all);
-        }
-        List<Brand> bandAll = bc.getAll();
-        req.setAttribute("brandList", bandAll);
-        req.getRequestDispatcher("/WEB-INF/jsp/showcase.jsp").forward(req, resp);
+          bc.remove(brand_id);
+          
 
+        resp.sendRedirect(req.getContextPath().concat("/brands"));
+    
+    
     }
+    
 
 }

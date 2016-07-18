@@ -21,41 +21,41 @@ import ua.com.codefire.web.cms.db.entity.Phone;
  *
  * @author user
  */
-@WebServlet(urlPatterns = "/showcase")
-public class ShowcaseServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/phone/remove")
 
+public class PhoneRemoveServlet extends HttpServlet {
+ 
     private PhoneController pc;
-    private BrandController bc;
 
     @Override
     public void init() throws ServletException {
         pc = new PhoneController();
-        bc = new BrandController();
+        
     }
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int brand_id;
-if (req.getParameter("brand_id") != null) {
+     @Override
+     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+         int phone_id;
+  
         try {
-
-             brand_id = Integer.parseInt(req.getParameter("brand_id"));
+             
+            phone_id = Integer.parseInt(req.getParameter("id"));
+             
         } catch (NumberFormatException ex) {
             ex.printStackTrace();
             resp.sendError(400);
             return;
         }
-         
-            List<Phone> bF = pc.brandFilter(brand_id);
-            req.setAttribute("phoneList", bF);
-        } else {
-        List<Phone> all = pc.getAll();
-        req.setAttribute("phoneList", all);
-        }
-        List<Brand> bandAll = bc.getAll();
-        req.setAttribute("brandList", bandAll);
-        req.getRequestDispatcher("/WEB-INF/jsp/showcase.jsp").forward(req, resp);
+       
+         pc.remove(phone_id);
+          
 
-    }
+        resp.sendRedirect(req.getContextPath().concat("/showcase"));
+     }
+
+//    @Override
+//    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//      
+//    }
 
 }

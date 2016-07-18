@@ -11,30 +11,79 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import ua.com.codefire.web.cms.db.entity.Brand;
+import ua.com.codefire.web.cms.db.entity.Phone;
 
 /**
  *
  * @author user
  */
-public class PhoneController {
+public class PhoneController extends DBController {
 
-    private static EntityManagerFactory factory;
-
-    public synchronized static EntityManagerFactory getFactory() {
-        if (factory == null) {
-            factory = Persistence.createEntityManagerFactory("MainPU");
-        }
-
-        return factory;
-    }
-
-    public List<Brand> getAll() {
+    public List<Phone> getAll() {
         EntityManager manager = getFactory().createEntityManager();
 
         try {
-            TypedQuery<Brand> query = manager.createQuery("SELECT p FROM Phone p", Brand.class);
-            List<Brand> phoneList = query.getResultList();
+            TypedQuery<Phone> query = manager.createQuery("SELECT p FROM Phone p", Phone.class);
+            List<Phone> phoneList = query.getResultList();
             return phoneList;
+        } finally {
+            manager.close();
+        }
+    }
+    
+    public List<Phone> brandFilter(int brand_id) {
+        EntityManager manager = getFactory().createEntityManager();
+
+        try {
+            TypedQuery<Phone> query = manager.createQuery("SELECT p FROM Phone p WHERE p.brand_id = :brand_id", Phone.class);
+            query.setParameter("brand_id", brand_id);
+            List<Phone> phoneList = query.getResultList();
+            return phoneList;
+        } finally {
+            manager.close();
+        }
+    }
+
+    public Phone save(Phone phone) {
+        EntityManager manager = getFactory().createEntityManager();
+
+        try {
+            manager.getTransaction().begin();
+            if (phone.getId() == null || phone.getId() < 1) {
+                manager.persist(phone);
+            } else {
+                phone = manager.merge(phone);
+            }
+            manager.getTransaction().commit();
+
+            return phone;
+        } finally {
+            manager.close();
+        }
+    }
+
+    public Phone findOne(int id) {
+        EntityManager manager = getFactory().createEntityManager();
+
+        try {
+            return manager.find(Phone.class, id);
+        } finally {
+            manager.close();
+        }
+    }
+
+    public void remove(int id) {
+        EntityManager manager = getFactory().createEntityManager();
+
+        try {
+
+            Phone p = manager.find(Phone.class, id);
+            if (p != null) {
+                manager.getTransaction().begin();
+
+                manager.remove(p);
+                manager.getTransaction().commit();
+            }
         } finally {
             manager.close();
         }

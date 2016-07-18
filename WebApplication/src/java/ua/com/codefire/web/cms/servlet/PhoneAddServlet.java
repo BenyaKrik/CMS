@@ -21,11 +21,11 @@ import ua.com.codefire.web.cms.db.entity.Phone;
  *
  * @author user
  */
-@WebServlet(urlPatterns = "/showcase")
-public class ShowcaseServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/phone/add")
+public class PhoneAddServlet extends HttpServlet {
 
-    private PhoneController pc;
     private BrandController bc;
+    private PhoneController pc;
 
     @Override
     public void init() throws ServletException {
@@ -35,27 +35,34 @@ public class ShowcaseServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int brand_id;
-if (req.getParameter("brand_id") != null) {
-        try {
 
-             brand_id = Integer.parseInt(req.getParameter("brand_id"));
+        List<Brand> all = bc.getAll();
+        req.setAttribute("brandList", all);
+        req.getRequestDispatcher("/WEB-INF/jsp/phone.edit.jsp").forward(req, resp);
+
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int brand_id;
+        String model = req.getParameter("model");
+        String body = req.getParameter("body");
+        double cost;
+
+        try {
+            brand_id = Integer.parseInt(req.getParameter("brand_id"));
+            cost = Double.parseDouble(req.getParameter("cost"));
         } catch (NumberFormatException ex) {
             ex.printStackTrace();
             resp.sendError(400);
             return;
         }
-         
-            List<Phone> bF = pc.brandFilter(brand_id);
-            req.setAttribute("phoneList", bF);
-        } else {
-        List<Phone> all = pc.getAll();
-        req.setAttribute("phoneList", all);
-        }
-        List<Brand> bandAll = bc.getAll();
-        req.setAttribute("brandList", bandAll);
-        req.getRequestDispatcher("/WEB-INF/jsp/showcase.jsp").forward(req, resp);
 
+        Phone phone = new Phone(model, body, cost);
+        phone.setBrand(bc.findOne(brand_id));
+        phone = pc.save(phone);
+
+        resp.sendRedirect(req.getContextPath().concat("/phone/edit?id=" + phone.getId()));
     }
 
 }
