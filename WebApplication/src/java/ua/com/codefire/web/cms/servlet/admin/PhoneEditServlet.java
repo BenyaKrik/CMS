@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.com.codefire.web.cms.servlet;
+package ua.com.codefire.web.cms.servlet.admin;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,7 +21,7 @@ import ua.com.codefire.web.cms.db.entity.Phone;
  *
  * @author user
  */
-@WebServlet(urlPatterns = "/phone/edit")
+@WebServlet(urlPatterns = "/admin/phone/edit")
 
 public class PhoneEditServlet extends HttpServlet {
 
@@ -45,14 +45,14 @@ public class PhoneEditServlet extends HttpServlet {
                 throw new NumberFormatException("Phone not found!");
             }
         } catch (NumberFormatException ex) {
-            resp.sendRedirect(req.getContextPath().concat("/showcase"));
+            resp.sendRedirect(req.getContextPath().concat("/admin/dashboard"));
             return;
         }
 
         req.setAttribute("foundPhone", phone);
         List<Brand> all = bc.getAll();
         req.setAttribute("brandList", all);
-        req.getRequestDispatcher("/WEB-INF/jsp/phone.edit.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/jsp/admin/phone.edit.jsp").forward(req, resp);
 
     }
 
@@ -81,7 +81,7 @@ public class PhoneEditServlet extends HttpServlet {
         phone.setBrand(bc.findOne(brand_id));
         phone = pc.save(phone);
 
-        resp.sendRedirect(req.getContextPath().concat("/phone/edit?id=" + phone));
+        resp.sendRedirect(req.getContextPath().concat("/admin/phone/edit?id=" + phone));
     }
 
 }

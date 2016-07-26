@@ -16,6 +16,7 @@
     </head>
     <body>
 
+        <%@include file="/WEB-INF/jspf/admin/header.menu.jspf" %>
         <div class="container">
             <h1>ADD NEW PHONE</h1>
 
@@ -38,16 +39,16 @@
                             <input class="form-control" type="text" name="model" value="${foundPhone.model}" />
                         </div>
                         <div class="form-group">
-                            <label  >Body:</label>
+                            <label>Body:</label>
                             <textarea class="form-control" name="body">${foundPhone.body}</textarea>
                         </div>
                         <div class="form-group">
-                            <label  >Cost:</label>
+                            <label>Cost:</label>
                             <input class="form-control" type="text" name="cost" value="${foundPhone.cost}" />
                         </div>
                         <div class="form-group">
-                          <div  class="col-lg-2"> <a href="${pageContext.servletContext.contextPath}/showcase">&lt; back to table</a></div>
-                           <div  class="col-lg-2"> <button type="submit" class="btn-u btn-u-blue">Save</button></div>
+                            <div  class="col-lg-2"> <a href="${pageContext.servletContext.contextPath}/admin/showcase">&lt; back to table</a></div>
+                            <div  class="col-lg-2"> <button type="submit" class="btn-u btn-u-blue">Save</button></div>
                         </div>
                     </form>
                 </div>

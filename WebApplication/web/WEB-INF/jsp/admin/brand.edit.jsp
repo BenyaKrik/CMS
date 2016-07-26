@@ -12,7 +12,8 @@
         <title>JSP Page</title>
     </head>
     <body>
-           <div class="container">
+        <%@include file="/WEB-INF/jspf/admin/header.menu.jspf" %>
+        <div class="container">
             <h1>ADD NEW PHONE</h1>
 
             <div class="panel panel-blue margin-bottom-40">
@@ -21,18 +22,18 @@
                 </div>
                 <div class="panel-body">
                     <form method="post" class="margin-bottom-40">
-                     
+
                         <div class="form-group">
                             <label>name:</label>
                             <input class="form-control" type="text" name="name" value="${foundBrand.name}" />
                         </div>
-                          <div class="form-group">
+                        <div class="form-group">
                             <label>country:</label>
                             <input class="form-control" type="text" name="country" value="${foundBrand.country}" />
                         </div>
                         <div class="form-group">
-                          <div  class="col-lg-2"> <a href="${pageContext.servletContext.contextPath}/brands">&lt; back to table</a></div>
-                           <div  class="col-lg-2"> <button type="submit" class="btn-u btn-u-blue">Save</button></div>
+                            <div  class="col-lg-2"> <a href="${pageContext.servletContext.contextPath}/admin/brands">&lt; back to table</a></div>
+                            <div  class="col-lg-2"> <button type="submit" class="btn-u btn-u-blue">Save</button></div>
                         </div>
                     </form>
                 </div>

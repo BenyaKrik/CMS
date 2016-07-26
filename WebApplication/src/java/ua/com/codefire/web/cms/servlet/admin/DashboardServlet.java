@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.com.codefire.web.cms.servlet;
+package ua.com.codefire.web.cms.servlet.admin;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,8 +21,8 @@ import ua.com.codefire.web.cms.db.entity.Phone;
  *
  * @author user
  */
-@WebServlet(urlPatterns = "/showcase")
-public class ShowcaseServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/admin/", "/admin/dashboard"})
+public class DashboardServlet extends HttpServlet {
 
     private PhoneController pc;
     private BrandController bc;
@@ -36,25 +36,26 @@ public class ShowcaseServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int brand_id;
-if (req.getParameter("brand_id") != null) {
-        try {
+        if (req.getParameter("brand_id") != null) {
+            try {
 
-             brand_id = Integer.parseInt(req.getParameter("brand_id"));
-        } catch (NumberFormatException ex) {
-            ex.printStackTrace();
-            resp.sendError(400);
-            return;
-        }
-         
+                brand_id = Integer.parseInt(req.getParameter("brand_id"));
+            } catch (NumberFormatException ex) {
+                ex.printStackTrace();
+                resp.sendError(400);
+                return;
+            }
+
             List<Phone> bF = pc.brandFilter(brand_id);
             req.setAttribute("phoneList", bF);
         } else {
-        List<Phone> all = pc.getAll();
-        req.setAttribute("phoneList", all);
+            List<Phone> all = pc.getAll();
+            req.setAttribute("phoneList", all);
         }
         List<Brand> bandAll = bc.getAll();
         req.setAttribute("brandList", bandAll);
-        req.getRequestDispatcher("/WEB-INF/jsp/showcase.jsp").forward(req, resp);
+        
+        req.getRequestDispatcher("/WEB-INF/jsp/admin/dashboard.jsp").forward(req, resp);
 
     }
 

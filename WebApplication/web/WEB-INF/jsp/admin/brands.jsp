@@ -14,9 +14,8 @@
         <%@include file="/WEB-INF/jspf/css.jspf" %>
     </head>
     <body>
-
+        <%@include file="/WEB-INF/jspf/admin/header.menu.jspf" %>
         <div class="container">
-            <h1>My little Shop!</h1>
 
             <div class="row">
 
@@ -29,10 +28,10 @@
                                     <td>${brands.name}</td>
                                     <td>${brands.country}</td>
                                     <td nowrap>
-                                        <a href="${pageContext.servletContext.contextPath}/brand/edit?id=${brands.id}" class="btn btn-xs btn-warning">
+                                        <a href="${pageContext.servletContext.contextPath}/admin/brand/edit?id=${brands.id}" class="btn btn-xs btn-warning">
                                             <i class="fa fa-fw fa-edit"></i>
                                         </a>
-                                        <a href="${pageContext.servletContext.contextPath}/brand/remove?id=${brands.id}" class="btn btn-xs btn-danger"
+                                        <a href="${pageContext.servletContext.contextPath}/admin/brand/remove?id=${brands.id}" class="btn btn-xs btn-danger"
                                            onclick="return confirm('Do you really want remove \'${brands.id} ${brands.name}\' brand?');">
                                             <i class="fa fa-fw fa-trash"></i>
                                         </a>

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.com.codefire.web.cms.servlet;
+package ua.com.codefire.web.cms.servlet.admin;
 
 import java.io.IOException;
 import java.util.List;
@@ -21,7 +21,7 @@ import ua.com.codefire.web.cms.db.entity.Phone;
  *
  * @author user
  */
-@WebServlet(urlPatterns = "/phone/add")
+@WebServlet(urlPatterns = "/admin/phone/add")
 public class PhoneAddServlet extends HttpServlet {
 
     private BrandController bc;
@@ -38,7 +38,7 @@ public class PhoneAddServlet extends HttpServlet {
 
         List<Brand> all = bc.getAll();
         req.setAttribute("brandList", all);
-        req.getRequestDispatcher("/WEB-INF/jsp/phone.edit.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/jsp/admin/phone.edit.jsp").forward(req, resp);
 
     }
 
@@ -62,7 +62,7 @@ public class PhoneAddServlet extends HttpServlet {
         phone.setBrand(bc.findOne(brand_id));
         phone = pc.save(phone);
 
-        resp.sendRedirect(req.getContextPath().concat("/phone/edit?id=" + phone.getId()));
+        resp.sendRedirect(req.getContextPath().concat("/admin/phone/edit?id=" + phone.getId()));
     }
 
 }

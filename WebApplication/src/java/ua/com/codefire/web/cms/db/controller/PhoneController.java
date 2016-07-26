@@ -35,7 +35,7 @@ public class PhoneController extends DBController {
         EntityManager manager = getFactory().createEntityManager();
 
         try {
-            TypedQuery<Phone> query = manager.createQuery("SELECT p FROM Phone p WHERE p.brand_id = :brand_id", Phone.class);
+            TypedQuery<Phone> query = manager.createQuery("SELECT p FROM Phone p WHERE p.brand.id = :brand_id", Phone.class);
             query.setParameter("brand_id", brand_id);
             List<Phone> phoneList = query.getResultList();
             return phoneList;
@@ -83,6 +83,23 @@ public class PhoneController extends DBController {
 
                 manager.remove(p);
                 manager.getTransaction().commit();
+            }
+        } finally {
+            manager.close();
+        }
+    }
+
+    public void remove(Iterable<Integer> ids) {
+        EntityManager manager = getFactory().createEntityManager();
+
+        try {
+            for (Integer id : ids) {
+                Phone p = manager.find(Phone.class, id);
+                if (p != null) {
+                    manager.getTransaction().begin();
+                    manager.remove(p);
+                    manager.getTransaction().commit();
+                }
             }
         } finally {
             manager.close();

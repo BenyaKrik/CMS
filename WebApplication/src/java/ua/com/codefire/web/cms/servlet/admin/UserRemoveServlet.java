@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.com.codefire.web.cms.servlet;
+package ua.com.codefire.web.cms.servlet.admin;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -11,41 +11,35 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import ua.com.codefire.web.cms.db.controller.BrandController;
+import ua.com.codefire.web.cms.db.controller.UserController;
 
 /**
  *
  * @author user
  */
-@WebServlet(urlPatterns = "/brand/remove")
+@WebServlet(urlPatterns = "/admin/user/remove")
+public class UserRemoveServlet extends HttpServlet {
 
-public class BrandRamoveServlet extends HttpServlet {
-
-    private BrandController bc;
+    private UserController uc;
 
     @Override
     public void init() throws ServletException {
-
-        bc = new BrandController();
+        uc = new UserController();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       int brand_id;
+        int id;
         try {
-             brand_id = Integer.parseInt(req.getParameter("id"));
+            id = Integer.parseInt(req.getParameter("id"));
         } catch (NumberFormatException ex) {
             ex.printStackTrace();
             resp.sendError(400);
             return;
         }
-          bc.remove(brand_id);
-          
+        uc.remove(id);
 
-        resp.sendRedirect(req.getContextPath().concat("/brands"));
-    
-    
+        resp.sendRedirect(req.getContextPath().concat("/admin/users"));
     }
-    
 
 }

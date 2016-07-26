@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.com.codefire.web.cms.servlet;
+package ua.com.codefire.web.cms.servlet.admin;
 
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,13 +13,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import ua.com.codefire.web.cms.db.controller.BrandController;
 import ua.com.codefire.web.cms.db.entity.Brand;
-import ua.com.codefire.web.cms.db.entity.Phone;
 
 /**
  *
  * @author user
  */
-@WebServlet(urlPatterns="/brand/add")
+@WebServlet(urlPatterns="/admin/brand/add")
 public class BrandAddServlet extends HttpServlet{
  private BrandController bc;
     @Override
@@ -32,7 +30,7 @@ public class BrandAddServlet extends HttpServlet{
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         
-        req.getRequestDispatcher("/WEB-INF/jsp/brand.edit.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/jsp/admin/brand.edit.jsp").forward(req, resp);
 
     }
     @Override
@@ -45,7 +43,7 @@ public class BrandAddServlet extends HttpServlet{
         
         brand = bc.save(brand);
 
-        resp.sendRedirect(req.getContextPath().concat("/brand/edit?id=" + brand.getId()));
+        resp.sendRedirect(req.getContextPath().concat("/admin/brand/edit?id=" + brand.getId()));
     }
     
     

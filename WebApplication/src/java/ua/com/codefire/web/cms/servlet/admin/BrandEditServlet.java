@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ua.com.codefire.web.cms.servlet;
+package ua.com.codefire.web.cms.servlet.admin;
 
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,7 +18,7 @@ import ua.com.codefire.web.cms.db.entity.Brand;
  *
  * @author user
  */
-@WebServlet(urlPatterns="/brand/edit")
+@WebServlet(urlPatterns="/admin/brand/edit")
 public class BrandEditServlet extends HttpServlet{
 private BrandController bc;
     @Override
@@ -37,11 +36,11 @@ private BrandController bc;
                 throw new NumberFormatException("Phone not found!");
             }
         } catch (NumberFormatException ex) {
-            resp.sendRedirect(req.getContextPath().concat("/brands"));
+            resp.sendRedirect(req.getContextPath().concat("/admin/brands"));
             return;
         }
           req.setAttribute("foundBrand", brand);
-          req.getRequestDispatcher("/WEB-INF/jsp/brand.edit.jsp").forward(req, resp);
+          req.getRequestDispatcher("/WEB-INF/jsp/admin/brand.edit.jsp").forward(req, resp);
 
         
     }
@@ -66,7 +65,7 @@ private BrandController bc;
        
         brand = bc.save(brand);
 
-        resp.sendRedirect(req.getContextPath().concat("/brand/edit?id=" + brand));
+        resp.sendRedirect(req.getContextPath().concat("/admin/brand/edit?id=" + brand));
     }
  
 }
